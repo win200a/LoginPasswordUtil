@@ -1,37 +1,63 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <windows.h>
+#include <string.h>
 #pragma warning (disable:4996)
-int main(int argc)
+int main(int argc, char *argv[])
 {
-	char instruction[100];
-	int a;
+	int day;
 	if (argc == 1)
 	{
 		time_t nowtime;
 		time(&nowtime);
 		struct tm * timeinfo = localtime(&nowtime);
-		a = timeinfo->tm_wday;
-		if (a == 0)
-			a = 7;
+		day = timeinfo->tm_wday;
+		if (day == 0)
+			day = 7;
 	}
-	else if (argc==2)
+	else if (argc == 2)
 	{
-		time_t nowtime;
-		time(&nowtime);
-		struct tm * timeinfo = localtime(&nowtime);
-		a = timeinfo->tm_wday;
-		a++;
-	}
-	else 
-	{
-		while (scanf("%d", &a) != 1 || (a<1 || a>7 ))
+		if ((strcmp(argv[1], "1")) == 0)
 		{
-			fflush(stdin);
-			printf("Input a letter and the letter must be a number and the number must >=1 and <=7.\n");
+			time_t nowtime;
+			time(&nowtime);
+			struct tm * timeinfo = localtime(&nowtime);
+			day = timeinfo->tm_wday;
+			day++;
+		}
+		else
+		{
+			puts("wrong");
+			getch();
+			exit(0);
 		}
 	}
-	sprintf(instruction, "net.exe USER %%USERNAME%% key%d", a);
-	system(instruction);
+	else if (argc == 3)
+	{
+		if ((strcmp(argv[1], "2")) == 0)
+		{
+			day = atoi(argv[2]);
+			if (day<1 || day>7)
+			{
+				puts("wrong");
+				getch();
+				exit(0);
+			}
+		}
+		else
+		{
+			puts("wrong");
+			getch();
+			exit(0);
+		}
+	}
+	else
+	{
+		puts("wrong");
+		getch();
+		exit(0);
+	}
+	char systemtion[100];
+	sprintf(systemtion, "net.exe USER %%USERNAME%% key%d", day);
+	system(systemtion);
 }
